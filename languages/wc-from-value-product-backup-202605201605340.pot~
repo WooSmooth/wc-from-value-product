@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce From Value Product\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-20 16:05+0000\n"
+"POT-Creation-Date: 2026-05-20 15:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -20,39 +20,27 @@ msgstr ""
 msgid "Adds \"From Value Product\" functionality to WooCommerce products."
 msgstr ""
 
-#: includes/class-admin.php:51
-msgid "Custom Button Text"
-msgstr ""
-
 #: includes/class-admin.php:42
 msgid "Custom Design Link"
 msgstr ""
 
-#: includes/class-admin.php:135
-msgid "Default Button Text"
-msgstr ""
-
-#: includes/class-admin.php:127
+#: includes/class-admin.php:99
 msgid "Default Design Link"
 msgstr ""
 
 #: includes/class-admin.php:37
-msgid "Enable From Value Product mode."
+msgid "Enable custom design link for this product."
 msgstr ""
 
-#: includes/class-admin.php:184
-msgid "Fallback button text."
-msgstr ""
-
-#: includes/class-admin.php:159
-msgid "Fallback design link."
+#: includes/class-admin.php:122
+msgid "Fallback design link for From Value Products."
 msgstr ""
 
 #: includes/class-admin.php:36
 msgid "From Value Product"
 msgstr ""
 
-#: includes/class-admin.php:120
+#: includes/class-admin.php:92
 msgid "From Value Product Settings"
 msgstr ""
 
@@ -60,22 +48,17 @@ msgstr ""
 msgid "https://github.com/WooSmooth/wc-from-value-product"
 msgstr ""
 
-#: includes/class-admin.php:54
-msgid "Optional custom button text. Falls back to global default text."
-msgstr ""
-
 #: includes/class-admin.php:45
-msgid "Optional custom link. Falls back to global default link."
+msgid "Optional custom link. Falls back to global default."
 msgstr ""
 
-#: includes/class-admin.php:52 includes/class-admin.php:114
-#: includes/class-admin.php:171 includes/class-admin.php:180
-#: includes/class-frontend.php:86
+#: includes/class-frontend.php:83 includes/class-frontend.php:102
+#: includes/class-frontend.php:135
 msgid "Start designing"
 msgstr ""
 
-#: includes/class-frontend.php:174
-msgid "Starts from"
+#: includes/class-frontend.php:151
+msgid "Starts from "
 msgstr ""
 
 #. Name of the plugin

@@ -25,7 +25,7 @@ class WCFVP_Admin {
     }
 
     /**
-     * Add fields to product edit page
+     * Add product fields
      */
     public function add_product_fields() {
 
@@ -34,16 +34,25 @@ class WCFVP_Admin {
         woocommerce_wp_checkbox([
             'id'          => '_wcfvp_enabled',
             'label'       => __('From Value Product', 'wc-from-value-product'),
-            'description' => __('Enable custom design link for this product.', 'wc-from-value-product'),
+            'description' => __('Enable From Value Product mode.', 'wc-from-value-product'),
         ]);
 
         woocommerce_wp_text_input([
             'id'          => '_wcfvp_custom_link',
             'label'       => __('Custom Design Link', 'wc-from-value-product'),
-            'placeholder' => 'https://example.com/design-product',
+            'placeholder' => 'https://example.com/design',
             'desc_tip'    => true,
-            'description' => __('Optional custom link. Falls back to global default.', 'wc-from-value-product'),
+            'description' => __('Optional custom link. Falls back to global default link.', 'wc-from-value-product'),
             'type'        => 'url',
+        ]);
+
+        woocommerce_wp_text_input([
+            'id'          => '_wcfvp_custom_button_text',
+            'label'       => __('Custom Button Text', 'wc-from-value-product'),
+            'placeholder' => __('Start designing', 'wc-from-value-product'),
+            'desc_tip'    => true,
+            'description' => __('Optional custom button text. Falls back to global default text.', 'wc-from-value-product'),
+            'type'        => 'text',
         ]);
 
         echo '</div>';
@@ -70,10 +79,19 @@ class WCFVP_Admin {
                 esc_url_raw($_POST['_wcfvp_custom_link'])
             );
         }
+
+        if (isset($_POST['_wcfvp_custom_button_text'])) {
+
+            update_post_meta(
+                $product_id,
+                '_wcfvp_custom_button_text',
+                sanitize_text_field($_POST['_wcfvp_custom_button_text'])
+            );
+        }
     }
 
     /**
-     * Register Reading settings
+     * Register settings
      */
     public function register_settings() {
 
@@ -84,6 +102,16 @@ class WCFVP_Admin {
                 'type' => 'string',
                 'sanitize_callback' => 'esc_url_raw',
                 'default' => '',
+            ]
+        );
+
+        register_setting(
+            'reading',
+            'wcfvp_default_button_text',
+            [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => __('Start designing', 'wc-from-value-product'),
             ]
         );
 
@@ -101,10 +129,18 @@ class WCFVP_Admin {
             'reading',
             'wcfvp_section'
         );
+
+        add_settings_field(
+            'wcfvp_default_button_text',
+            __('Default Button Text', 'wc-from-value-product'),
+            [$this, 'render_default_button_text_field'],
+            'reading',
+            'wcfvp_section'
+        );
     }
 
     /**
-     * Render settings field
+     * Render default link field
      */
     public function render_default_link_field() {
 
@@ -118,8 +154,34 @@ class WCFVP_Admin {
             class="regular-text"
             placeholder="https://example.com/design"
         />
+
         <p class="description">
-            <?php esc_html_e('Fallback design link for From Value Products.', 'wc-from-value-product'); ?>
+            <?php esc_html_e('Fallback design link.', 'wc-from-value-product'); ?>
+        </p>
+        <?php
+    }
+
+    /**
+     * Render default button text field
+     */
+    public function render_default_button_text_field() {
+
+        $value = get_option(
+            'wcfvp_default_button_text',
+            __('Start designing', 'wc-from-value-product')
+        );
+
+        ?>
+        <input
+            type="text"
+            name="wcfvp_default_button_text"
+            value="<?php echo esc_attr($value); ?>"
+            class="regular-text"
+            placeholder="<?php esc_attr_e('Start designing', 'wc-from-value-product'); ?>"
+        />
+
+        <p class="description">
+            <?php esc_html_e('Fallback button text.', 'wc-from-value-product'); ?>
         </p>
         <?php
     }

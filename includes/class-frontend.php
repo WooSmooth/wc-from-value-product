@@ -67,6 +67,29 @@ class WCFVP_Frontend {
     }
 
     /**
+     * Get button text
+     */
+    private function get_button_text($product_id) {
+
+        $custom_text = get_post_meta(
+            $product_id,
+            '_wcfvp_custom_button_text',
+            true
+        );
+
+        if (!empty($custom_text)) {
+            return esc_html($custom_text);
+        }
+
+        $default_text = get_option(
+            'wcfvp_default_button_text',
+            __('Start designing', 'wc-from-value-product')
+        );
+
+        return esc_html($default_text);
+    }
+
+    /**
      * Replace archive/shop buttons
      */
     public function replace_loop_button($html, $product, $args) {
@@ -80,7 +103,7 @@ class WCFVP_Frontend {
         return sprintf(
             '<a href="%s" class="button">%s</a>',
             esc_url($url),
-            esc_html__('Start designing', 'wc-from-value-product')
+            $this->get_button_text($product->get_id())
         );
     }
 
@@ -99,7 +122,7 @@ class WCFVP_Frontend {
             return $text;
         }
 
-        return __('Start designing', 'wc-from-value-product');
+        return $this->get_button_text($product->get_id());
     }
 
     /**
@@ -132,7 +155,7 @@ class WCFVP_Frontend {
                 echo sprintf(
                     '<a href="%s" class="single_add_to_cart_button button alt">%s</a>',
                     esc_url($url),
-                    esc_html__('Start designing', 'wc-from-value-product')
+                    $this->get_button_text($product->get_id())
                 );
             },
             30
@@ -148,7 +171,7 @@ class WCFVP_Frontend {
             return $price;
         }
 
-        $prefix = esc_html__('Starts from ', 'wc-from-value-product');
+        $prefix = esc_html__('Starts from', 'wc-from-value-product') . ' ';
 
         /**
          * Sale product

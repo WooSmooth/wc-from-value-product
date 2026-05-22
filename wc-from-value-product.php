@@ -16,12 +16,12 @@ require 'plugin-update-checker/plugin-update-checker.php';
 
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
-$updateChecker->setAuthentication('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');
 $updateChecker = PucFactory::buildUpdateChecker(
     'https://github.com/WooSmooth/wc-from-value-product',
     __FILE__,
     'wc-from-value-product'
 );
+$updateChecker->setAuthentication('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');
 
 /**
  * Plugin core

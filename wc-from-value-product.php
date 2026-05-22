@@ -5,6 +5,7 @@
  * Description: Adds "From Value Product" functionality to WooCommerce products.
  * Version: 1.0.0
  * Author: WooSmooth | CollisionCourse
+ * Author URI: https://www.collisioncourse.be
  * Text Domain: wc-from-value-product
  * Domain Path: /languages
  */

@@ -3,12 +3,29 @@
  * Plugin Name: WooCommerce From Value Product
  * Plugin URI: https://github.com/WooSmooth/wc-from-value-product
  * Description: Adds "From Value Product" functionality to WooCommerce products.
- * Version: 1.0.1
+ * Version: 1.0.0
  * Author: WooSmooth | CollisionCourse
  * Text Domain: wc-from-value-product
  * Domain Path: /languages
  */
 
+/**
+ * Update process
+ */
+require 'plugin-update-checker/plugin-update-checker.php';
+
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$updateChecker->setAuthentication('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');
+$updateChecker = PucFactory::buildUpdateChecker(
+    'https://github.com/WooSmooth/wc-from-value-product',
+    __FILE__,
+    'wc-from-value-product'
+);
+
+/**
+ * Plugin core
+ */
 if (!defined('ABSPATH')) {
     exit;
 }

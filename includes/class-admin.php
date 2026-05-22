@@ -6,6 +6,16 @@ if (!defined('ABSPATH')) {
 
 class WCFVP_Admin {
 
+    /**
+     * Settings option group
+     */
+    const OPTION_GROUP = 'wcfvp_settings_group';
+
+    /**
+     * Settings page slug
+     */
+    const MENU_SLUG = 'wcfvp-settings';
+
     public function __construct() {
 
         add_action(
@@ -16,6 +26,11 @@ class WCFVP_Admin {
         add_action(
             'woocommerce_process_product_meta',
             [$this, 'save_product_fields']
+        );
+
+        add_action(
+            'admin_menu',
+            [$this, 'add_settings_page']
         );
 
         add_action(
@@ -91,52 +106,92 @@ class WCFVP_Admin {
     }
 
     /**
+     * Add settings page
+     */
+    public function add_settings_page() {
+
+        add_options_page(
+            __('From Value Products', 'wc-from-value-product'),
+            __('From Value Products', 'wc-from-value-product'),
+            'manage_options',
+            self::MENU_SLUG,
+            [$this, 'render_settings_page']
+        );
+    }
+
+    /**
      * Register settings
      */
     public function register_settings() {
 
         register_setting(
-            'reading',
+            self::OPTION_GROUP,
             'wcfvp_default_link',
             [
-                'type' => 'string',
                 'sanitize_callback' => 'esc_url_raw',
                 'default' => '',
             ]
         );
 
         register_setting(
-            'reading',
+            self::OPTION_GROUP,
             'wcfvp_default_button_text',
             [
-                'type' => 'string',
                 'sanitize_callback' => 'sanitize_text_field',
                 'default' => __('Start designing', 'wc-from-value-product'),
             ]
         );
 
         add_settings_section(
-            'wcfvp_section',
-            __('From Value Product Settings', 'wc-from-value-product'),
+            'wcfvp_main_section',
+            __('Global Settings', 'wc-from-value-product'),
             '__return_false',
-            'reading'
+            self::MENU_SLUG
         );
 
         add_settings_field(
             'wcfvp_default_link',
             __('Default Design Link', 'wc-from-value-product'),
             [$this, 'render_default_link_field'],
-            'reading',
-            'wcfvp_section'
+            self::MENU_SLUG,
+            'wcfvp_main_section'
         );
 
         add_settings_field(
             'wcfvp_default_button_text',
             __('Default Button Text', 'wc-from-value-product'),
             [$this, 'render_default_button_text_field'],
-            'reading',
-            'wcfvp_section'
+            self::MENU_SLUG,
+            'wcfvp_main_section'
         );
+    }
+
+    /**
+     * Render settings page
+     */
+    public function render_settings_page() {
+
+        ?>
+        <div class="wrap">
+
+            <h1>
+                <?php esc_html_e('From Value Products', 'wc-from-value-product'); ?>
+            </h1>
+
+            <form method="post" action="options.php">
+
+                <?php
+                settings_fields(self::OPTION_GROUP);
+
+                do_settings_sections(self::MENU_SLUG);
+
+                submit_button();
+                ?>
+
+            </form>
+
+        </div>
+        <?php
     }
 
     /**

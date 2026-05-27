@@ -123,5 +123,8 @@ Yes, this can be configured in the global settings.
 
 == Upgrade Notice ==
 
+= 1.0.1 =
+Remove unused code blocks.
+
 = 1.0.0 =
 Initial stable release of WooCommerce From Value Product.

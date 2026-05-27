@@ -1,189 +1,154 @@
 # WooCommerce From Value Product
 
-Adds "From Value Product" functionality to WooCommerce products.
+WooCommerce From Value Product is a standalone WooCommerce plugin that allows products to redirect users to external configurators, design tools, or custom landing pages instead of using the default WooCommerce purchase flow.
 
-This plugin allows you to:
-
-- Mark products as "From Value Products"
-- Replace Add to Cart/View More buttons with a custom design link
-- Add global fallback design links
-- Show "Starts from" pricing
-- Support sale pricing
-- Work independently from the active theme
+The plugin adds flexible product-level and global settings for custom links, button texts, redirects, and frontend behavior.
 
 ---
 
 # Features
 
-## Product Settings
+## Product-Level Controls
 
-Each WooCommerce product gets:
+Each WooCommerce product can be configured as a **From Value Product** with:
 
-- A checkbox:
-  - **From Value Product**
-- A custom URL field:
-  - **Custom Design Link**
-
-If enabled:
-- Product buttons change to:
-  - **Start designing**
-- Buttons link to:
-  - Product custom URL
-  - OR fallback global URL
+- Enable/disable checkbox
+- Custom design/configurator URL
+- Custom button text
 
 ---
 
 ## Global Settings
 
-Adds a setting in:
+A dedicated settings page is available under:
 
-Settings → Reading
+Settings → From Value Products
 
-Field:
-- **Default Design Link**
+Global options include:
 
-Used as fallback when a product-specific URL is empty.
-
----
-
-## Frontend Behavior
-
-### Product Archives
-
-Buttons become:
-
-Start designing
-
-Instead of:
-- Add to cart
-- View more
+- Default design link
+- Default button text
+- Open links in:
+  - same tab
+  - new tab
+- Redirect single product pages
+- Enable functionality on specific frontend locations
 
 ---
 
-### Single Product Page
+# Frontend Functionality
 
-The add to cart button becomes:
+When enabled for a product, the plugin can:
 
-Start designing
-
-And links to the design URL.
+- Replace WooCommerce add-to-cart buttons
+- Replace “View product” buttons
+- Redirect single product pages
+- Display custom button text
+- Use external configurator/design URLs
 
 ---
 
-## Price Display
+# Supported Frontend Locations
 
-Enabled products show:
+The functionality can be enabled or disabled globally for:
+
+- Shop page
+- Product category/tag archives
+- Related products
+- Upsells
+- Cross-sells
+- Single product pages
+
+---
+
+# Price Display
+
+For enabled products the plugin automatically adjusts the price display.
+
+Examples:
+
+## Regular Price
 
 Starts from €99
 
-Sale products show:
+## Sale Price
 
 Starts from ~~€149~~ €99
 
-Uses native WooCommerce price formatting.
+WooCommerce native pricing formatting is used for:
+
+- Currency symbols
+- Decimal settings
+- Tax display
+- Localization
 
 ---
 
-# Installation
+# Link Priority
 
-## 1. Upload Plugin
+The plugin uses the following URL priority:
 
-Upload the folder:
-
-wp-content/plugins/wc-from-value-product/
-
----
-
-## 2. Activate Plugin
-
-Go to:
-
-Plugins → Installed Plugins
-
-Activate:
-
-WooCommerce From Value Product
+1. Product custom URL
+2. Global default URL
 
 ---
 
-# Usage
+# Button Text Priority
 
-## Configure Default Link
+The plugin uses the following button text priority:
 
-Go to:
-
-Settings → Reading
-
-Set:
-- Default Design Link
-
-Example:
-
-https://example.com/design
+1. Product custom button text
+2. Global default button text
+3. "Start designing"
 
 ---
 
-## Configure Product
+# Translation Ready
 
-Edit a WooCommerce product.
-
-Under the General product tab:
-
-- Enable:
-  - From Value Product
-- Optional:
-  - Custom Design Link
-
-If the custom link is empty:
-- The global default link is used.
-
----
-
-# Translation
+The plugin is fully translation-ready.
 
 Text domain:
 
 wc-from-value-product
 
 Compatible with:
+
 - WPML
-- Loco Translate
 - Polylang
+- Loco Translate
+- WordPress language packs
 
 ---
 
 # Requirements
 
-- WordPress 6+
-- WooCommerce 7+
-- PHP 7.4+
+- WordPress
+- WooCommerce
 
 ---
 
-# Hooks Used
+# Installation
 
-## Admin
+1. Upload the plugin folder to:
 
-- woocommerce_product_options_general_product_data
-- woocommerce_process_product_meta
-- admin_init
+wp-content/plugins/
 
-## Frontend
+2. Activate the plugin via:
 
-- woocommerce_loop_add_to_cart_link
-- woocommerce_product_single_add_to_cart_text
-- woocommerce_single_product_summary
-- woocommerce_get_price_html
+WordPress Admin → Plugins
+
+3. Configure global settings via:
+
+Settings → From Value Products
 
 ---
 
-# Future Improvements
+# Plugin Structure
 
-Possible future upgrades:
-
-- Open in new tab option
-- Variable product support
-- Product-specific button text
-- Elementor compatibility helpers
-- WooCommerce Blocks support
-- Per-language URLs
+```text
+wc-from-value-product/
+├── wc-from-value-product.php
+├── includes/
+│   ├── class-admin.php
+│   └── class-frontend.php
+└── languages/

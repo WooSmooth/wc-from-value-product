@@ -1,11 +1,11 @@
 /* WooCommerce From Value Product Admin Styles */
 
-.wcfvp-logo {
-    margin-bottom: 15px;
-}
-
 .wcfvp-title {
     font-weight: 700 !important;
+}
+
+.wcfvp-logo {
+    margin-bottom: 15px;
 }
 
 .wcfvp-logo img {

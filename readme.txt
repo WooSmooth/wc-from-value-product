@@ -115,13 +115,6 @@ The global default link is used automatically.
 
 Yes. This can be configured globally.
 
-== Screenshots ==
-
-1. Product edit settings
-2. Global plugin settings
-3. Frontend button replacement
-4. Starts from price display
-
 == Changelog ==
 
 = 1.0.1 =
@@ -139,6 +132,9 @@ Yes. This can be configured globally.
 * Frontend location controls
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+Improved logic in css files.
 
 = 1.0.1 =
 Improved plugin cleanup and WordPress.org compatibility.

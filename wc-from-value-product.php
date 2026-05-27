@@ -13,6 +13,26 @@
  * WC requires at least: 8.0
  */
 
+/**
+ * Plugin updater
+ * @YahnisElsts
+ */
+require 'plugin-update-checker/plugin-update-checker.php';
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+$myUpdateChecker = PucFactory::buildUpdateChecker(
+	'https://github.com/WooSmooth/wc-from-value-product',
+	__FILE__,
+	'wc-from-value-product'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('main');
+
+
+/**
+ * Core
+ */
 if (!defined('ABSPATH')) {
     exit;
 }

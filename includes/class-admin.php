@@ -225,7 +225,7 @@ class WCFVP_Admin {
             <img src="<?php echo esc_url(WCFVP_PLUGIN_URL . 'assets/img/logo/logo_slogan_full_color.png'); ?>" alt="WooSmooth Logo">
         </div>
 
-        <h1><?php esc_html_e('From Value Products', 'wc-from-value-product'); ?></h1>
+        <h1 class="wcfvp-title"><?php esc_html_e('From Value Products', 'wc-from-value-product'); ?></h1>
 
         <div class="wcfvp-settings-wrap">
 

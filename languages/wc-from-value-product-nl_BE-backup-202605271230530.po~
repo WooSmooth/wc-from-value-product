@@ -1,14 +1,13 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce From Value Product\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-27 12:28+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"POT-Creation-Date: 2026-05-20 15:51+0000\n"
+"PO-Revision-Date: 2026-05-27 12:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: Nederlands (België)\n"
+"Language: nl_BE\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,112 +17,116 @@ msgstr ""
 
 #. Description of the plugin
 msgid "Adds \"From Value Product\" functionality to WooCommerce products."
-msgstr ""
+msgstr "Voegt de functie “Van Value Product” toe aan WooCommerce-producten."
 
 #: includes/class-admin.php:309
 msgid "Category/tag archives"
-msgstr ""
+msgstr "Category/tag archieven"
 
 #: includes/class-admin.php:57
 msgid "Custom Button Text"
-msgstr ""
+msgstr "Aangepaste knoptekst"
 
 #: includes/class-admin.php:50
 msgid "Custom Design Link"
-msgstr ""
+msgstr "Link naar ontwerp op maat"
 
 #: includes/class-admin.php:174
 msgid "Default Button Text"
-msgstr ""
+msgstr "Standaardtekst voor knop"
 
 #: includes/class-admin.php:166
 msgid "Default Design Link"
-msgstr ""
+msgstr "Standaardontwerp-link"
 
 #: includes/class-admin.php:45
 msgid "Enable From Value Product mode."
-msgstr ""
+msgstr "Schakel de modus ‘Van waarde naar product’ in."
 
 #: includes/class-admin.php:198
 msgid "Enable Functionality On"
-msgstr ""
+msgstr "Functie inschakelen"
 
 #: includes/class-admin.php:44
 msgid "From Value Product"
-msgstr ""
+msgstr "Van Value Product"
 
 #: includes/class-admin.php:101 includes/class-admin.php:102
 #: includes/class-admin.php:228
 msgid "From Value Products"
-msgstr ""
+msgstr "From Value Products"
 
 #: includes/class-admin.php:159
 msgid "Global Settings"
-msgstr ""
+msgstr "Algemene instellingen"
 
 #. URI of the plugin
 msgid "https://github.com/WooSmooth/wc-from-value-product"
-msgstr ""
+msgstr "https://github.com/WooSmooth/wc-from-value-product"
 
 #. Author URI of the plugin
 msgid "https://www.collisioncourse.be"
-msgstr ""
+msgstr "https://www.collisioncourse.be"
 
 #: includes/class-admin.php:284
 msgid "Open links in a new tab"
-msgstr ""
+msgstr "Links in een nieuw tabblad openen"
 
 #: includes/class-admin.php:182
 msgid "Open Links In New Tab"
-msgstr ""
+msgstr "Links in een nieuw tabblad openen"
 
 #: wc-from-value-product.php:122
 msgid "Plugin dependency check"
-msgstr ""
+msgstr "Controle op afhankelijkheid van plug-ins"
 
 #: includes/class-admin.php:190
 msgid "Redirect Product Pages"
-msgstr ""
+msgstr "Productpagina’s omleiden"
 
 #: includes/class-admin.php:298
 msgid "Redirect single product pages"
-msgstr ""
+msgstr "Productpagina’s omleiden"
 
 #: includes/class-admin.php:310
 msgid "Related products"
-msgstr ""
+msgstr "Gerelateerde producten"
 
 #: includes/class-admin.php:308
 msgid "Shop page"
-msgstr ""
+msgstr "Shop pagina"
 
 #: includes/class-admin.php:312
 msgid "Single product page"
-msgstr ""
+msgstr "Productpagina"
 
 #: includes/class-admin.php:59 includes/class-admin.php:264
 #: includes/class-frontend.php:120
 msgid "Start designing"
-msgstr ""
+msgstr "Begin met ontwerpen"
 
 #: includes/class-frontend.php:272
+#, fuzzy
+#| msgid "Starts from "
 msgid "Starts from"
-msgstr ""
+msgstr "Vanaf "
 
 #: includes/class-admin.php:311
 msgid "Upsells/cross-sells"
-msgstr ""
+msgstr "Upsells/cross-sells"
 
 #. Name of the plugin
 msgid "WooCommerce From Value Product"
-msgstr ""
+msgstr "WooCommerce From Value Product"
 
 #: wc-from-value-product.php:79 wc-from-value-product.php:121
 msgid ""
 "WooCommerce From Value Product requires WooCommerce to be installed and "
 "active."
 msgstr ""
+"Voor ‘WooCommerce From Value Product’ moet WooCommerce geïnstalleerd en "
+"geactiveerd zijn."
 
 #. Author of the plugin
 msgid "WooSmooth | CollisionCourse"
-msgstr ""
+msgstr "WooSmooth | CollisionCourse"

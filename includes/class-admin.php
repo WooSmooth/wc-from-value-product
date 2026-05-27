@@ -6,14 +6,7 @@ if (!defined('ABSPATH')) {
 
 class WCFVP_Admin {
 
-    /**
-     * Settings option group
-     */
     const OPTION_GROUP = 'wcfvp_settings_group';
-
-    /**
-     * Settings page slug
-     */
     const MENU_SLUG = 'wcfvp-settings';
 
     public function __construct() {
@@ -40,7 +33,7 @@ class WCFVP_Admin {
     }
 
     /**
-     * Add product fields
+     * Product fields
      */
     public function add_product_fields() {
 
@@ -55,19 +48,15 @@ class WCFVP_Admin {
         woocommerce_wp_text_input([
             'id'          => '_wcfvp_custom_link',
             'label'       => __('Custom Design Link', 'wc-from-value-product'),
-            'placeholder' => 'https://example.com/design',
-            'desc_tip'    => true,
-            'description' => __('Optional custom link. Falls back to global default link.', 'wc-from-value-product'),
             'type'        => 'url',
+            'placeholder' => 'https://example.com/design',
         ]);
 
         woocommerce_wp_text_input([
             'id'          => '_wcfvp_custom_button_text',
             'label'       => __('Custom Button Text', 'wc-from-value-product'),
-            'placeholder' => __('Start designing', 'wc-from-value-product'),
-            'desc_tip'    => true,
-            'description' => __('Optional custom button text. Falls back to global default text.', 'wc-from-value-product'),
             'type'        => 'text',
+            'placeholder' => __('Start designing', 'wc-from-value-product'),
         ]);
 
         echo '</div>';
@@ -78,12 +67,10 @@ class WCFVP_Admin {
      */
     public function save_product_fields($product_id) {
 
-        $enabled = isset($_POST['_wcfvp_enabled']) ? 'yes' : 'no';
-
         update_post_meta(
             $product_id,
             '_wcfvp_enabled',
-            $enabled
+            isset($_POST['_wcfvp_enabled']) ? 'yes' : 'no'
         );
 
         if (isset($_POST['_wcfvp_custom_link'])) {
@@ -106,7 +93,7 @@ class WCFVP_Admin {
     }
 
     /**
-     * Add settings page
+     * Settings page
      */
     public function add_settings_page() {
 
@@ -129,7 +116,6 @@ class WCFVP_Admin {
             'wcfvp_default_link',
             [
                 'sanitize_callback' => 'esc_url_raw',
-                'default' => '',
             ]
         );
 
@@ -138,7 +124,33 @@ class WCFVP_Admin {
             'wcfvp_default_button_text',
             [
                 'sanitize_callback' => 'sanitize_text_field',
-                'default' => __('Start designing', 'wc-from-value-product'),
+            ]
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_open_in_new_tab',
+            [
+                'sanitize_callback' => 'absint',
+                'default' => 0,
+            ]
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_redirect_product_page',
+            [
+                'sanitize_callback' => 'absint',
+                'default' => 0,
+            ]
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_enabled_locations',
+            [
+                'sanitize_callback' => [$this, 'sanitize_locations'],
+                'default' => [],
             ]
         );
 
@@ -164,10 +176,46 @@ class WCFVP_Admin {
             self::MENU_SLUG,
             'wcfvp_main_section'
         );
+
+        add_settings_field(
+            'wcfvp_open_in_new_tab',
+            __('Open Links In New Tab', 'wc-from-value-product'),
+            [$this, 'render_new_tab_field'],
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        add_settings_field(
+            'wcfvp_redirect_product_page',
+            __('Redirect Product Pages', 'wc-from-value-product'),
+            [$this, 'render_redirect_field'],
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        add_settings_field(
+            'wcfvp_enabled_locations',
+            __('Enable Functionality On', 'wc-from-value-product'),
+            [$this, 'render_locations_field'],
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
     }
 
     /**
-     * Render settings page
+     * Sanitize locations
+     */
+    public function sanitize_locations($input) {
+
+        if (!is_array($input)) {
+            return [];
+        }
+
+        return array_map('sanitize_text_field', $input);
+    }
+
+    /**
+     * Settings page
      */
     public function render_settings_page() {
 
@@ -182,9 +230,7 @@ class WCFVP_Admin {
 
                 <?php
                 settings_fields(self::OPTION_GROUP);
-
                 do_settings_sections(self::MENU_SLUG);
-
                 submit_button();
                 ?>
 
@@ -194,31 +240,18 @@ class WCFVP_Admin {
         <?php
     }
 
-    /**
-     * Render default link field
-     */
     public function render_default_link_field() {
 
         $value = get_option('wcfvp_default_link', '');
 
         ?>
-        <input
-            type="url"
-            name="wcfvp_default_link"
-            value="<?php echo esc_attr($value); ?>"
-            class="regular-text"
-            placeholder="https://example.com/design"
-        />
-
-        <p class="description">
-            <?php esc_html_e('Fallback design link.', 'wc-from-value-product'); ?>
-        </p>
+        <input type="url"
+               name="wcfvp_default_link"
+               value="<?php echo esc_attr($value); ?>"
+               class="regular-text">
         <?php
     }
 
-    /**
-     * Render default button text field
-     */
     public function render_default_button_text_field() {
 
         $value = get_option(
@@ -227,17 +260,67 @@ class WCFVP_Admin {
         );
 
         ?>
-        <input
-            type="text"
-            name="wcfvp_default_button_text"
-            value="<?php echo esc_attr($value); ?>"
-            class="regular-text"
-            placeholder="<?php esc_attr_e('Start designing', 'wc-from-value-product'); ?>"
-        />
-
-        <p class="description">
-            <?php esc_html_e('Fallback button text.', 'wc-from-value-product'); ?>
-        </p>
+        <input type="text"
+               name="wcfvp_default_button_text"
+               value="<?php echo esc_attr($value); ?>"
+               class="regular-text">
         <?php
+    }
+
+    public function render_new_tab_field() {
+
+        ?>
+        <label>
+            <input type="checkbox"
+                   name="wcfvp_open_in_new_tab"
+                   value="1"
+                <?php checked(get_option('wcfvp_open_in_new_tab'), 1); ?>>
+
+            <?php esc_html_e('Open links in a new tab', 'wc-from-value-product'); ?>
+        </label>
+        <?php
+    }
+
+    public function render_redirect_field() {
+
+        ?>
+        <label>
+            <input type="checkbox"
+                   name="wcfvp_redirect_product_page"
+                   value="1"
+                <?php checked(get_option('wcfvp_redirect_product_page'), 1); ?>>
+
+            <?php esc_html_e('Redirect single product pages', 'wc-from-value-product'); ?>
+        </label>
+        <?php
+    }
+
+    public function render_locations_field() {
+
+        $locations = get_option('wcfvp_enabled_locations', []);
+
+        $options = [
+            'shop'      => __('Shop page', 'wc-from-value-product'),
+            'archives'  => __('Category/tag archives', 'wc-from-value-product'),
+            'related'   => __('Related products', 'wc-from-value-product'),
+            'upsells'   => __('Upsells/cross-sells', 'wc-from-value-product'),
+            'single'    => __('Single product page', 'wc-from-value-product'),
+        ];
+
+        foreach ($options as $value => $label) {
+
+            ?>
+            <label style="display:block;margin-bottom:8px;">
+
+                <input type="checkbox"
+                       name="wcfvp_enabled_locations[]"
+                       value="<?php echo esc_attr($value); ?>"
+                    <?php checked(in_array($value, $locations, true)); ?>>
+
+                <?php echo esc_html($label); ?>
+
+            </label>
+            <?php
+        }
     }
 }

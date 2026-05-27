@@ -32,6 +32,11 @@ class WCFVP_Frontend {
             10,
             2
         );
+
+        add_action(
+            'template_redirect',
+            [$this, 'redirect_product_page']
+        );
     }
 
     /**
@@ -44,6 +49,35 @@ class WCFVP_Frontend {
             '_wcfvp_enabled',
             true
         ) === 'yes';
+    }
+
+    /**
+     * Get enabled locations
+     */
+    private function get_enabled_locations() {
+
+        $locations = get_option(
+            'wcfvp_enabled_locations',
+            []
+        );
+
+        if (!is_array($locations)) {
+            return [];
+        }
+
+        return $locations;
+    }
+
+    /**
+     * Check if functionality enabled for location
+     */
+    private function is_location_enabled($location) {
+
+        return in_array(
+            $location,
+            $this->get_enabled_locations(),
+            true
+        );
     }
 
     /**
@@ -90,6 +124,21 @@ class WCFVP_Frontend {
     }
 
     /**
+     * Link target
+     */
+    private function get_link_target() {
+
+        $new_tab = get_option(
+            'wcfvp_open_in_new_tab',
+            0
+        );
+
+        return $new_tab
+            ? ' target="_blank" rel="noopener noreferrer" '
+            : '';
+    }
+
+    /**
      * Replace archive/shop buttons
      */
     public function replace_loop_button($html, $product, $args) {
@@ -98,11 +147,51 @@ class WCFVP_Frontend {
             return $html;
         }
 
+        /**
+         * Detect WooCommerce loop context
+         */
+        $location = 'shop';
+
+        if (is_product_category() || is_product_tag()) {
+            $location = 'archives';
+        }
+
+        /**
+         * Related products
+         */
+        global $woocommerce_loop;
+
+        if (
+            isset($woocommerce_loop['name']) &&
+            $woocommerce_loop['name'] === 'related'
+        ) {
+            $location = 'related';
+        }
+
+        /**
+         * Upsells/cross-sells
+         */
+        if (
+            isset($woocommerce_loop['name']) &&
+            in_array(
+                $woocommerce_loop['name'],
+                ['up-sells', 'cross-sells'],
+                true
+            )
+        ) {
+            $location = 'upsells';
+        }
+
+        if (!$this->is_location_enabled($location)) {
+            return $html;
+        }
+
         $url = $this->get_design_url($product->get_id());
 
         return sprintf(
-            '<a href="%s" class="button">%s</a>',
+            '<a href="%s" class="button"%s>%s</a>',
             esc_url($url),
+            $this->get_link_target(),
             $this->get_button_text($product->get_id())
         );
     }
@@ -118,6 +207,10 @@ class WCFVP_Frontend {
             return $text;
         }
 
+        if (!$this->is_location_enabled('single')) {
+            return $text;
+        }
+
         if (!$this->is_from_value_product($product->get_id())) {
             return $text;
         }
@@ -126,9 +219,13 @@ class WCFVP_Frontend {
     }
 
     /**
-     * Replace single product button
+     * Replace single product add to cart button
      */
     public function replace_single_product_button() {
+
+        if (!$this->is_location_enabled('single')) {
+            return;
+        }
 
         global $product;
 
@@ -153,8 +250,9 @@ class WCFVP_Frontend {
                 $url = $this->get_design_url($product->get_id());
 
                 echo sprintf(
-                    '<a href="%s" class="single_add_to_cart_button button alt">%s</a>',
+                    '<a href="%s" class="single_add_to_cart_button button alt"%s>%s</a>',
                     esc_url($url),
+                    $this->get_link_target(),
                     $this->get_button_text($product->get_id())
                 );
             },
@@ -171,15 +269,23 @@ class WCFVP_Frontend {
             return $price;
         }
 
-        $prefix = esc_html__('Starts from', 'wc-from-value-product') . ' ';
+        $prefix = esc_html__(
+            'Starts from',
+            'wc-from-value-product'
+        ) . ' ';
 
         /**
-         * Sale product
+         * Sale products
          */
         if ($product->is_on_sale()) {
 
-            $regular_price = wc_price($product->get_regular_price());
-            $sale_price    = wc_price($product->get_sale_price());
+            $regular_price = wc_price(
+                $product->get_regular_price()
+            );
+
+            $sale_price = wc_price(
+                $product->get_sale_price()
+            );
 
             return sprintf(
                 '%s<del>%s</del> <ins>%s</ins>',
@@ -190,12 +296,75 @@ class WCFVP_Frontend {
         }
 
         /**
-         * Normal product
+         * Regular products
          */
         return sprintf(
             '%s%s',
             $prefix,
             wc_price($product->get_price())
         );
+    }
+
+    /**
+     * Redirect single product pages
+     */
+    public function redirect_product_page() {
+
+        /**
+         * Never redirect admin
+         */
+        if (is_admin()) {
+            return;
+        }
+
+        /**
+         * Prevent AJAX issues
+         */
+        if (wp_doing_ajax()) {
+            return;
+        }
+
+        /**
+         * Only product pages
+         */
+        if (!is_product()) {
+            return;
+        }
+
+        /**
+         * Redirect disabled
+         */
+        if (!get_option('wcfvp_redirect_product_page', 0)) {
+            return;
+        }
+
+        global $post;
+
+        if (!$post) {
+            return;
+        }
+
+        /**
+         * Product not enabled
+         */
+        if (!$this->is_from_value_product($post->ID)) {
+            return;
+        }
+
+        $url = $this->get_design_url($post->ID);
+
+        /**
+         * Prevent empty redirects
+         */
+        if (empty($url)) {
+            return;
+        }
+
+        /**
+         * Allow external redirects
+         */
+        wp_redirect($url);
+
+        exit;
     }
 }

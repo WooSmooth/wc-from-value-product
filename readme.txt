@@ -1,130 +1,147 @@
 === WooCommerce From Value Product ===
 Contributors: woosmooth, collisioncourse
-Tags: woocommerce, product, redirect, custom link, add to cart, external link, design tool
-Requires at least: 7.0
-Tested up to: 7.0
+Tags: woocommerce, product, redirect, custom link, external link, configurator
+Requires at least: 6.0
+Tested up to: 6.5
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Adds "From Value Product" functionality to WooCommerce products, allowing products to redirect to external design tools or custom URLs instead of the default add-to-cart flow.
+Adds "From Value Product" functionality to WooCommerce products, allowing products to redirect to external design tools or custom URLs.
 
 == Description ==
 
-WooCommerce From Value Product is a lightweight WooCommerce extension that allows you to turn standard WooCommerce products into "From Value Products".
+WooCommerce From Value Product allows WooCommerce products to redirect customers to external configurators, design tools, custom builders, or landing pages instead of using the default WooCommerce add-to-cart flow.
 
-Instead of sending customers directly to the cart or checkout flow, products can redirect users to external configurators, product builders, or custom landing pages.
-
-This makes it ideal for:
-- Product configurators
-- Custom design tools
-- Quote-based products
-- External checkout flows
-- Lead-generation product pages
-
----
-
-== Features ==
+Perfect for:
+* Product configurators
+* Design tools
+* Quote-based products
+* External checkout flows
+* Lead generation products
 
 = Product-level controls =
-- Enable/disable "From Value Product" mode per product
-- Set a custom external design/configurator link
-- Set custom button text per product
+
+Each WooCommerce product can be configured individually.
+
+Features include:
+* Enable or disable "From Value Product" mode
+* Set a custom external URL
+* Set custom button text
+* Use global fallback settings
 
 = Global settings =
-- Default design link fallback
-- Default button text fallback
-- Choose whether links open in the same tab or new tab
-- Enable redirect of single product pages
-- Select where functionality is active:
-  - Shop page
-  - Category & tag archives
-  - Related products
-  - Upsells & cross-sells
-  - Single product pages
+
+A dedicated settings page is available under:
+
+Settings → From Value Products
+
+Available global options:
+* Default design URL
+* Default button text
+* Open links in same tab or new tab
+* Redirect single product pages
+* Enable functionality on:
+  * Shop page
+  * Category/tag archives
+  * Related products
+  * Upsells and cross-sells
+  * Single product pages
 
 = Frontend behavior =
-- Replace WooCommerce add-to-cart buttons
-- Replace shop loop buttons
-- Replace single product purchase button
-- Optional redirect of single product pages
-- Custom price display with "Starts from" prefix
-- Sale price formatting support
 
----
+The plugin can:
+* Replace add-to-cart buttons
+* Replace view product buttons
+* Redirect product pages
+* Display custom button text
+* Add "Starts from" price prefix
+* Handle sale prices correctly
 
-== How it works ==
+= Price display =
 
-When a product is marked as a "From Value Product", WooCommerce behavior changes:
+Regular prices:
+Starts from €99
 
-1. The product button is replaced with a custom button.
-2. The button links to:
-   - Product-specific custom URL (if set)
-   - Otherwise the global default URL
-3. Button text is resolved in this order:
-   - Product custom button text
-   - Global default button text
-   - Fallback: "Start designing"
-4. Prices are displayed with a "Starts from" prefix.
+Sale prices:
+Starts from ~~€149~~ €99
 
-If enabled, users visiting single product pages are redirected directly to the configured URL.
+WooCommerce native price formatting is preserved.
 
----
+= Translation ready =
+
+The plugin is translation-ready and supports:
+* WPML
+* Polylang
+* Loco Translate
+
+Text domain:
+wc-from-value-product
 
 == Installation ==
 
 1. Upload the plugin folder to:
-   /wp-content/plugins/
+`/wp-content/plugins/`
 
-2. Activate the plugin through the WordPress admin:
-   Plugins → Installed Plugins
+2. Activate the plugin via:
+Plugins → Installed Plugins
 
 3. Configure global settings:
-   Settings → From Value Products
+Settings → From Value Products
 
-4. Edit products and enable:
-   Product data → From Value Product
-
----
+4. Edit WooCommerce products and enable:
+From Value Product
 
 == Frequently Asked Questions ==
 
 = Does this replace WooCommerce checkout? =
-No. It redirects product interactions to external URLs when enabled, but does not modify WooCommerce checkout itself.
+
+No. It redirects product interactions to external URLs when enabled.
 
 = Can I still use normal WooCommerce products? =
+
 Yes. Only products with "From Value Product" enabled are affected.
 
 = Can I use different links per product? =
-Yes. Each product can have its own custom design URL.
+
+Yes. Each product can have its own custom URL and button text.
 
 = What happens if no custom link is set? =
-The global default link is used.
 
-= Can I open links in a new tab? =
-Yes, this can be configured in the global settings.
+The global default link is used automatically.
 
----
+= Can links open in a new tab? =
+
+Yes. This can be configured globally.
+
+== Screenshots ==
+
+1. Product edit settings
+2. Global plugin settings
+3. Frontend button replacement
+4. Starts from price display
 
 == Changelog ==
+
+= 1.0.1 =
+* Removed unused code blocks
+* Improved WordPress.org compatibility
+* Improved admin styling
 
 = 1.0.0 =
 * Initial release
 * Product-level custom links
-* Global fallback settings
-* Button text customization
-* Shop + single product integration
-* Price modification ("Starts from")
-* Optional product page redirect
-* Location-based enable/disable system
-
----
+* Global settings
+* Custom button texts
+* Redirect support
+* Price customization
+* Frontend location controls
 
 == Upgrade Notice ==
 
 = 1.0.1 =
-Remove unused code blocks.
+Improved plugin cleanup and WordPress.org compatibility.
 
 = 1.0.0 =
-Initial stable release of WooCommerce From Value Product.
+Initial stable release.

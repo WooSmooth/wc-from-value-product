@@ -1,0 +1,5 @@
+/* WooCommerce From Value Product App (Frontend) Styles (Fixes) */
+
+.single-product div.product .single_add_to_cart_button {
+    margin-bottom: 1.618em; /* Basic WC padding */
+}

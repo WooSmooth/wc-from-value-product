@@ -1,10 +1,10 @@
 === WooCommerce From Value Product ===
 Contributors: woosmooth, collisioncourse
-Tags: woocommerce, product, redirect, custom link, external link, configurator
+Tags: woocommerce, product, from, to, value, custom link
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,6 +117,14 @@ Yes. This can be configured globally.
 
 == Changelog ==
 
+= 1.1.0 =
+* Price has now a price range
+* Display choises for verbose or range
+* Button for add to cart can be hidden on shop (overview) pages
+
+= 1.0.2 =
+* Improved logic in css files.
+
 = 1.0.1 =
 * Removed unused code blocks
 * Improved WordPress.org compatibility
@@ -133,11 +141,3 @@ Yes. This can be configured globally.
 
 == Upgrade Notice ==
 
-= 1.0.2 =
-Improved logic in css files.
-
-= 1.0.1 =
-Improved plugin cleanup and WordPress.org compatibility.
-
-= 1.0.0 =
-Initial stable release.

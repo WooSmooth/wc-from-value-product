@@ -3,14 +3,14 @@
  * Plugin Name: WooCommerce From Value Product
  * Plugin URI: https://github.com/WooSmooth/wc-from-value-product
  * Description: Adds "From Value Product" functionality to WooCommerce products.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: WooSmooth | CollisionCourse
  * Author URI: https://www.collisioncourse.be
  * Text Domain: wc-from-value-product
  * Domain Path: /languages
- * Requires at least: 7.0
+ * Requires at least: 6.0
  * Requires PHP: 7.4
- * WC requires at least: 8.0
+ * WC requires at least: 10.0
  */
 
 /**
@@ -36,6 +36,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!defined('WCFVP_VERSION')) {
+    define('WCFVP_VERSION', '1.1.0');
+}
+
 if (!class_exists('WC_From_Value_Product')) {
 
     class WC_From_Value_Product {
@@ -52,6 +56,7 @@ if (!class_exists('WC_From_Value_Product')) {
 
             add_action('plugins_loaded', [$this, 'init']);
             add_action('admin_enqueue_scripts', [$this, 'admin_assets']);
+            add_action('wp_enqueue_scripts', [$this, 'app_assets']);
         }
 
         /**
@@ -119,7 +124,20 @@ if (!class_exists('WC_From_Value_Product')) {
                 'wcfvp-admin',
                 WCFVP_PLUGIN_URL . 'assets/css/admin.css',
                 [],
-                '1.0.0'
+                WCFVP_VERSION
+            );
+        }
+
+        /**
+         * Load app assets
+         */
+        public function app_assets() {
+
+            wp_enqueue_style(
+                'wcfvp-app',
+                WCFVP_PLUGIN_URL . 'assets/css/app.css',
+                [],
+                WCFVP_VERSION
             );
         }
     }

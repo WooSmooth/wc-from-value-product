@@ -250,7 +250,7 @@ class WCFVP_Frontend {
                 $url = $this->get_design_url($product->get_id());
 
                 echo sprintf(
-                    '<a href="%s" class="single_add_to_cart_button button alt"%s>%s</a>',
+                    '<a href="%s" class="single_add_to_cart_button wc_single_link_button button alt"%s>%s</a>',
                     esc_url($url),
                     $this->get_link_target(),
                     $this->get_button_text($product->get_id())
@@ -269,40 +269,38 @@ class WCFVP_Frontend {
             return $price;
         }
 
-        $prefix = esc_html__(
-            'Starts from',
-            'wc-from-value-product'
-        ) . ' ';
+        $min = get_post_meta($product->get_id(), '_wcfvp_price_min', true);
+        $max = get_post_meta($product->get_id(), '_wcfvp_price_max', true);
 
-        /**
-         * Sale products
-         */
-        if ($product->is_on_sale()) {
-
-            $regular_price = wc_price(
-                $product->get_regular_price()
-            );
-
-            $sale_price = wc_price(
-                $product->get_sale_price()
-            );
-
-            return sprintf(
-                '%s<del>%s</del> <ins>%s</ins>',
-                $prefix,
-                $regular_price,
-                $sale_price
-            );
+        if (empty($min) && empty($max)) {
+            return $price;
         }
 
-        /**
-         * Regular products
-         */
+        $min_price = wc_price($min);
+        $max_price = wc_price($max);
+
+        $format = get_option('wcfvp_price_format', 'verbose');
+
+        $vat_label = '';
+
+        if (get_option('wcfvp_show_vat_label', 1)) {
+            $vat_label = ' ' . esc_html(get_option(
+                'wcfvp_vat_label_text',
+                __('Incl. VAT', 'wc-from-value-product')
+            ));
+        }
+
+        if ($format === 'compact') {
+            return $min_price . ' - ' . $max_price . $vat_label;
+        }
+
         return sprintf(
-            '%s%s',
-            $prefix,
-            wc_price($product->get_price())
-        );
+            '%s %s %s %s',
+            esc_html__('From', 'wc-from-value-product'),
+            $min_price,
+            esc_html__('to', 'wc-from-value-product'),
+            $max_price
+        ) . $vat_label;
     }
 
     /**

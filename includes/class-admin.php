@@ -49,14 +49,36 @@ class WCFVP_Admin {
             'id'          => '_wcfvp_custom_link',
             'label'       => __('Custom Design Link', 'wc-from-value-product'),
             'type'        => 'url',
-            'placeholder' => 'https://example.com/design',
+            'placeholder' => 'https://example.com/',
+            'description' => __('Leave empty to use the global settings', 'wc-from-value-product'),
         ]);
 
         woocommerce_wp_text_input([
             'id'          => '_wcfvp_custom_button_text',
             'label'       => __('Custom Button Text', 'wc-from-value-product'),
             'type'        => 'text',
-            'placeholder' => __('Start designing', 'wc-from-value-product'),
+            'placeholder' => __('My custom message', 'wc-from-value-product'),
+            'description' => __('Leave empty to use the global settings', 'wc-from-value-product'),
+        ]);
+
+        woocommerce_wp_text_input([
+            'id' => '_wcfvp_price_min',
+            'label' => __('Minimum Price (From)', 'wc-from-value-product'),
+            'type' => 'number',
+            'custom_attributes' => [
+                'step' => '0.01',
+                'min' => '0',
+            ],
+        ]);
+
+        woocommerce_wp_text_input([
+            'id' => '_wcfvp_price_max',
+            'label' => __('Maximum Price (To)', 'wc-from-value-product'),
+            'type' => 'number',
+            'custom_attributes' => [
+                'step' => '0.01',
+                'min' => '0',
+            ],
         ]);
 
         echo '</div>';
@@ -88,6 +110,22 @@ class WCFVP_Admin {
                 $product_id,
                 '_wcfvp_custom_button_text',
                 sanitize_text_field($_POST['_wcfvp_custom_button_text'])
+            );
+        }
+
+        if (isset($_POST['_wcfvp_price_min'])) {
+            update_post_meta(
+                $product_id,
+                '_wcfvp_price_min',
+                floatval($_POST['_wcfvp_price_min'])
+            );
+        }
+
+        if (isset($_POST['_wcfvp_price_max'])) {
+            update_post_meta(
+                $product_id,
+                '_wcfvp_price_max',
+                floatval($_POST['_wcfvp_price_max'])
             );
         }
     }
@@ -197,6 +235,62 @@ class WCFVP_Admin {
             'wcfvp_enabled_locations',
             __('Enable Functionality On', 'wc-from-value-product'),
             [$this, 'render_locations_field'],
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_price_format',
+            [
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'verbose', // verbose | compact
+            ]
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_show_vat_label',
+            [
+                'sanitize_callback' => 'absint',
+                'default' => 1,
+            ]
+        );
+
+        add_settings_field(
+            'wcfvp_price_format',
+            __('Price Format', 'wc-from-value-product'),
+            function () {
+
+                $value = get_option('wcfvp_price_format', 'verbose');
+
+                ?>
+                <select name="wcfvp_price_format">
+                    <option value="verbose" <?php selected($value, 'verbose'); ?>>
+                        <?php esc_html_e('From X to Y', 'wc-from-value-product'); ?>
+                    </option>
+                    <option value="compact" <?php selected($value, 'compact'); ?>>
+                        <?php esc_html_e('X - Y', 'wc-from-value-product'); ?>
+                    </option>
+                </select>
+                <?php
+            },
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        add_settings_field(
+            'wcfvp_show_vat_label',
+            __('Show VAT Label', 'wc-from-value-product'),
+            function () {
+
+                $value = get_option('wcfvp_show_vat_label', 1);
+
+                ?>
+                <input type="checkbox" name="wcfvp_show_vat_label" value="1" <?php checked($value, 1); ?>>
+                <?php esc_html_e('Show VAT label on frontend', 'wc-from-value-product'); ?>
+                <?php
+            },
             self::MENU_SLUG,
             'wcfvp_main_section'
         );

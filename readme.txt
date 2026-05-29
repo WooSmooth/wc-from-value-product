@@ -4,7 +4,7 @@ Tags: woocommerce, product, from, value, custom link, redirect, catalog mode
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,10 +112,7 @@ Product Data → From Value Product
 == Screenshots ==
 
 1. Product edit screen showing "From Value Product" settings
-   assets/screenshots/producteditscreen.png
-
 2. Global settings page
-   assets/screenshots/adminpage.png
 
 == Frequently Asked Questions ==
 
@@ -138,6 +135,9 @@ Yes. This is configurable in global settings.
 Yes, but pricing range is best used with simple products or controlled variations.
 
 == Changelog ==
+
+= 1.1.1 =
+* Improved readme format
 
 = 1.1.0 =
 * Added product price range support (min / max)
@@ -165,6 +165,9 @@ Yes, but pricing range is best used with simple products or controlled variation
 * Frontend location controls
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+This update improved the readme format
 
 = 1.1.0 =
 This update introduces major improvements including price range support, improved frontend control, and enhanced Add to Cart visibility management. Update is recommended for all users.

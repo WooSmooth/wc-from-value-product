@@ -1,6 +1,6 @@
 === WooCommerce From Value Product ===
 Contributors: woosmooth, collisioncourse
-Tags: woocommerce, product, from, to, value, custom link
+Tags: woocommerce, product, from, value, custom link, redirect, catalog mode
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -8,28 +8,30 @@ Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Adds "From Value Product" functionality to WooCommerce products, allowing products to redirect to external design tools or custom URLs.
+Adds "From Value Product" functionality to WooCommerce products, allowing products to redirect to external design tools or custom URLs instead of the default add-to-cart flow.
 
 == Description ==
 
-WooCommerce From Value Product allows WooCommerce products to redirect customers to external configurators, design tools, custom builders, or landing pages instead of using the default WooCommerce add-to-cart flow.
+WooCommerce From Value Product transforms standard WooCommerce products into configurable "From Value Products". Instead of using the default add-to-cart flow, products can redirect users to external configurators, product builders, or custom landing pages.
 
-Perfect for:
+This plugin is ideal for:
 * Product configurators
-* Design tools
+* Custom design tools
 * Quote-based products
 * External checkout flows
 * Lead generation products
+* Catalog mode setups
 
 = Product-level controls =
 
-Each WooCommerce product can be configured individually.
+Each product can be individually configured.
 
 Features include:
-* Enable or disable "From Value Product" mode
-* Set a custom external URL
-* Set custom button text
-* Use global fallback settings
+* Enable or disable "From Value Product" mode per product
+* Set custom external URL per product
+* Set custom button text per product
+* Set minimum and maximum price values (price range support)
+* Override global settings per product
 
 = Global settings =
 
@@ -38,40 +40,52 @@ A dedicated settings page is available under:
 Settings → From Value Products
 
 Available global options:
-* Default design URL
-* Default button text
+* Default design URL fallback
+* Default button text fallback
 * Open links in same tab or new tab
-* Redirect single product pages
-* Enable functionality on:
+* Redirect single product pages to external URL
+* Enable functionality per location:
   * Shop page
-  * Category/tag archives
+  * Category and tag archives
   * Related products
   * Upsells and cross-sells
   * Single product pages
+* Price display format selection:
+  * Verbose: “From €100 to €200”
+  * Compact: “€100 - €200”
+* VAT label display control (show/hide)
+* Custom VAT label translation support (via Loco Translate or WordPress translations)
 
 = Frontend behavior =
 
-The plugin can:
-* Replace add-to-cart buttons
-* Replace view product buttons
-* Redirect product pages
-* Display custom button text
-* Add "Starts from" price prefix
-* Handle sale prices correctly
+The plugin modifies WooCommerce frontend output when enabled:
 
-= Price display =
+* Replaces add-to-cart buttons with custom links
+* Replaces shop loop product buttons
+* Replaces single product purchase button
+* Optionally hides Add to Cart button globally or per product
+* Supports full price range display (min → max)
+* Displays "Starts from" pricing logic
+* Handles WooCommerce sale pricing formatting
+* Optional redirect of single product pages
 
-Regular prices:
-Starts from €99
+= Price display examples =
 
-Sale prices:
-Starts from ~~€149~~ €99
+Price formats:
 
-WooCommerce native price formatting is preserved.
+Verbose format:
+From €1.000,00 to €2.000,00 Incl. VAT
+
+Compact format:
+€1.000,00 - €2.000,00 Incl. VAT
+
+VAT label can be:
+* Shown or hidden globally
+* Translated via WordPress translation tools (Loco Translate, WPML, Polylang)
 
 = Translation ready =
 
-The plugin is translation-ready and supports:
+The plugin is fully translation-ready and supports:
 * WPML
 * Polylang
 * Loco Translate
@@ -82,48 +96,59 @@ wc-from-value-product
 == Installation ==
 
 1. Upload the plugin folder to:
-`/wp-content/plugins/`
+`/wp-content/plugins/wc-from-value-product/`
 
 2. Activate the plugin via:
-Plugins → Installed Plugins
+WordPress Admin → Plugins → Installed Plugins
 
 3. Configure global settings:
-Settings → From Value Products
+WordPress Admin → Settings → From Value Products
 
 4. Edit WooCommerce products and enable:
-From Value Product
+Product Data → From Value Product
+
+5. (Optional) Configure price range fields and custom settings per product.
+
+== Screenshots ==
+
+1. Product edit screen showing "From Value Product" settings
+   assets/screenshots/producteditscreen.png
+
+2. Global settings page
+   assets/screenshots/adminpage.png
 
 == Frequently Asked Questions ==
 
 = Does this replace WooCommerce checkout? =
-
-No. It redirects product interactions to external URLs when enabled.
+No. It replaces the product purchasing flow when enabled, but does not modify checkout itself.
 
 = Can I still use normal WooCommerce products? =
-
 Yes. Only products with "From Value Product" enabled are affected.
 
 = Can I use different links per product? =
-
 Yes. Each product can have its own custom URL and button text.
 
 = What happens if no custom link is set? =
+The global default URL is used automatically.
 
-The global default link is used automatically.
+= Can I open links in a new tab? =
+Yes. This is configurable in global settings.
 
-= Can links open in a new tab? =
-
-Yes. This can be configured globally.
+= Does it support variable products? =
+Yes, but pricing range is best used with simple products or controlled variations.
 
 == Changelog ==
 
 = 1.1.0 =
-* Price has now a price range
-* Display choises for verbose or range
-* Button for add to cart can be hidden on shop (overview) pages
+* Added product price range support (min / max)
+* Added global price display format (verbose / compact)
+* Added VAT label visibility toggle
+* Added full Add to Cart hiding (shop + single + per product)
+* Improved frontend rendering logic
+* Improved WooCommerce compatibility
 
 = 1.0.2 =
-* Improved logic in css files.
+* Improved CSS handling and admin styling
 
 = 1.0.1 =
 * Removed unused code blocks
@@ -141,3 +166,14 @@ Yes. This can be configured globally.
 
 == Upgrade Notice ==
 
+= 1.1.0 =
+This update introduces major improvements including price range support, improved frontend control, and enhanced Add to Cart visibility management. Update is recommended for all users.
+
+= 1.0.2 =
+Minor improvements and styling updates.
+
+= 1.0.1 =
+Compatibility and cleanup improvements.
+
+= 1.0.0 =
+Initial stable release.

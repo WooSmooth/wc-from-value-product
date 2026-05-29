@@ -1,0 +1,38 @@
+name: WordPress Plugin Structure
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-plugin:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check plugin structure
+        run: |
+          echo "Checking WordPress plugin structure..."
+
+          # Check for at least one PHP file in root
+          ROOT_PHP=$(find . -maxdepth 1 -name "*.php" | head -n 1)
+
+          if [ -z "$ROOT_PHP" ]; then
+            echo "❌ No root plugin PHP file found."
+            exit 1
+          fi
+
+          echo "✅ Found root PHP file: $ROOT_PHP"
+
+          # Check common folders
+          for dir in includes assets; do
+            if [ ! -d "$dir" ]; then
+              echo "⚠️ Missing recommended folder: $dir"
+            else
+              echo "✅ Found folder: $dir"
+            fi
+          done
+
+          echo "🎉 Basic plugin structure looks good."

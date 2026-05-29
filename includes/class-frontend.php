@@ -37,6 +37,13 @@ class WCFVP_Frontend {
             'template_redirect',
             [$this, 'redirect_product_page']
         );
+        
+        add_filter(
+            'woocommerce_is_purchasable',
+            [$this, 'maybe_disable_purchasable'], 
+            10,
+            2
+        );
     }
 
     /**
@@ -147,6 +154,10 @@ class WCFVP_Frontend {
             return $html;
         }
 
+         if ($this->should_hide_add_to_cart($product->get_id())) {
+            return '';
+        }
+
         /**
          * Detect WooCommerce loop context
          */
@@ -215,6 +226,10 @@ class WCFVP_Frontend {
             return $text;
         }
 
+        if ($this->should_hide_add_to_cart($product->get_id())) {
+            return;
+        }
+
         return $this->get_button_text($product->get_id());
     }
 
@@ -237,6 +252,11 @@ class WCFVP_Frontend {
             return;
         }
 
+        if ($this->should_hide_add_to_cart($product->get_id())) {
+            return; // 🔥 THIS is the real fix
+        }
+
+        // Remove default button safely
         remove_action(
             'woocommerce_single_product_summary',
             'woocommerce_template_single_add_to_cart',
@@ -364,5 +384,46 @@ class WCFVP_Frontend {
         wp_redirect($url);
 
         exit;
+    }    
+
+    private function should_hide_add_to_cart($product_id) {
+
+        // Product-level override
+        $product_hide = get_post_meta($product_id, '_wcfvp_hide_add_to_cart', true) === 'yes';
+
+        // Global settings
+        $global_shop = get_option('wcfvp_hide_cart_shop', 0);
+        $global_single = get_option('wcfvp_hide_cart_single', 0);
+
+        if ($product_hide) {
+            return true;
+        }
+
+        if (is_product() && $global_single) {
+            return true;
+        }
+
+        if (!is_product() && $global_shop) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function maybe_disable_purchasable($purchasable, $product) {
+
+        if (!$product) {
+            return $purchasable;
+        }
+
+        if (!$this->is_from_value_product($product->get_id())) {
+            return $purchasable;
+        }
+
+        if ($this->should_hide_add_to_cart($product->get_id())) {
+            return false;
+        }
+
+        return $purchasable;
     }
 }

@@ -81,6 +81,12 @@ class WCFVP_Admin {
             ],
         ]);
 
+        woocommerce_wp_checkbox([
+            'id' => '_wcfvp_hide_add_to_cart',
+            'label' => __('Hide WooCommerce', 'wc-from-value-product'),
+            'description' => __('Hide WooCommerce button for this product only.', 'wc-from-value-product'),
+        ]);
+
         echo '</div>';
     }
 
@@ -128,6 +134,12 @@ class WCFVP_Admin {
                 floatval($_POST['_wcfvp_price_max'])
             );
         }
+
+        update_post_meta(
+            $product_id,
+            '_wcfvp_hide_add_to_cart',
+            isset($_POST['_wcfvp_hide_add_to_cart']) ? 'yes' : 'no'
+        );
     }
 
     /**
@@ -289,6 +301,56 @@ class WCFVP_Admin {
                 ?>
                 <input type="checkbox" name="wcfvp_show_vat_label" value="1" <?php checked($value, 1); ?>>
                 <?php esc_html_e('Show VAT label on frontend', 'wc-from-value-product'); ?>
+                <?php
+            },
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_hide_cart_shop',
+            [
+                'sanitize_callback' => 'absint',
+                'default' => 0,
+            ]
+        );
+
+        register_setting(
+            self::OPTION_GROUP,
+            'wcfvp_hide_cart_single',
+            [
+                'sanitize_callback' => 'absint',
+                'default' => 0,
+            ]
+        );
+
+        add_settings_field(
+            'wcfvp_hide_cart_shop',
+            __('Hide WooCommerce (Shop/Archives)', 'wc-from-value-product'),
+            function () {
+
+                $value = get_option('wcfvp_hide_cart_shop', 0);
+
+                ?>
+                <input type="checkbox" name="wcfvp_hide_cart_shop" value="1" <?php checked($value, 1); ?>>
+                <span><?php esc_html_e('Hide WooCommerce button on product listings', 'wc-from-value-product'); ?></span>
+                <?php
+            },
+            self::MENU_SLUG,
+            'wcfvp_main_section'
+        );
+
+        add_settings_field(
+            'wcfvp_hide_cart_single',
+            __('Hide WooCommerce (Single Product)', 'wc-from-value-product'),
+            function () {
+
+                $value = get_option('wcfvp_hide_cart_single', 0);
+
+                ?>
+                <input type="checkbox" name="wcfvp_hide_cart_single" value="1" <?php checked($value, 1); ?>>
+                <span><?php esc_html_e('Hide WooCommerce button on product pages', 'wc-from-value-product'); ?></span>
                 <?php
             },
             self::MENU_SLUG,
